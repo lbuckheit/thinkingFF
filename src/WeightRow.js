@@ -25,7 +25,7 @@ class WRWeights extends React.Component {
       <span className='flex-span'>
         <div>
           <form onSubmit={this.handleSubmit}>
-            {this.props.statistic} <input name={this.props.statistic} value={this.state.value} type='number' onChange={this.handleChange}></input>
+            {this.props.statistic} <input name={this.props.statistic} value={this.state.value} onChange={this.handleChange}></input>
             <input type='submit' value="Update Weight"></input>
           </form>
         </div>

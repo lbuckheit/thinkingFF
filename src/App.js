@@ -26,8 +26,9 @@ function fantasyPoints(wr, weightsObj = {}) {
   //console.log('weightsobj', weightsObj['receiving_rec'])
   //console.log('rec', wr.receiving_rec)
   //console.log('Test weight', Number(wr.receiving_rec * weightsObj['receiving_rec']))
-  let fpts = Number(wr.receiving_rec * weightsObj['receiving_rec'])
-  //let fpts = Math.floor(Number(wr.receiving_yds * weightsObj['receiving_yds']) + Number(wr.receiving_tds * weightsObj['receiving_tds']) + Number(wr.receiving_rec * weightsObj['receiving_rec']))
+  //let fpts = Number(wr.receiving_rec * weightsObj['receiving_rec'])
+  let fpts = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0)
+  //console.log(fpts)
   return fpts > 0 ? fpts : 0
 }
 
@@ -67,18 +68,16 @@ class App extends React.Component {
     for (let i = 0; i < normalized.length; i++) {
       newArr.push({...normalized[i]})
     }
-    console.log(newArr[0])
+    console.log('updating data weightsObj', weightsObj)
     for (let elem of newArr) {
-      console.log(fantasyPoints(elem, weightsObj))
       elem.fpts = fantasyPoints(elem, weightsObj)
     }
-    console.log(newArr[0])
     //this.data = [...newArr]
     this.setState({ data: [...newArr]})
   }
 
   componentDidUpdate() {
-    console.log(this.state)
+    console.log('state on update', this.state.weightsObj)
   }
 
 /*   handleAlgo(key, value) {
@@ -90,6 +89,8 @@ class App extends React.Component {
   handleTest(statistic, value) {
     let newWeights = {...this.state.weightsObj}
     newWeights[statistic] = value
+    console.log('in handletest', newWeights, this.state.weightsObj)
+    this.setState({ weightsObj: newWeights})
     this.updateData(newWeights)
     //this.setState({ weightsObj: newWeights})
   }
@@ -104,7 +105,7 @@ class App extends React.Component {
         <p>Algorithm components:</p>
         {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleTest={this.handleTest}/>)}
         <div>
-          <button onClick={this.handleTest}>Update A-scores</button>
+          {/*<button onClick={this.handleTest}>Update A-scores</button>*/}
           {/*<input onChange={(e) => this.handleChange(e)}></input>*/}
         </div>
         <XBar data={this.state.data}/>

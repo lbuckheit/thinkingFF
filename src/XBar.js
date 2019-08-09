@@ -1,9 +1,7 @@
 import React from 'react';
-import {json} from 'd3-fetch';
 import './App.css';
 import * as input from "./initial_data/2018WRsComplete.json"
 import { select } from 'd3-selection'
-import { transition } from 'd3-transition'
 import * as d3 from 'd3'
 
 class XBar extends React.Component {
@@ -37,7 +35,7 @@ class XBar extends React.Component {
     WRArr.sort((a, b) => a.ADP - b.ADP)
 
     function fantasyPoints(wr) {
-      let fpts = Math.floor((wr.receiving_yds * 0.001) + (wr.receiving_tds * .006) + (wr.receiving_rec * .001) + (wr.receiving_tar * 2))
+      let fpts = Math.floor((wr.receiving_yds * 0.1) + (wr.receiving_tds * 6) + (wr.receiving_rec * 1))
       return fpts > 0 ? fpts : 0
     }
 
@@ -46,16 +44,19 @@ class XBar extends React.Component {
       return {...wr, fpts: fantasyPoints(wr)}
     })
 
+    console.log(normalized)
+
     var div = select("body").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
 
-    //Append a series of divs that represent the bars of the chart
-    select("body")
-      .selectAll("div")
+    //Append a series of spans that represent the bars of the chart (SOME WEIRD STUFF HERE WITH BINDING TO SELECTIONS HERE)
+    d3.select("body")
+      .selectAll("span")
       .data(normalized)
         .enter()
         .append("div")
+        .attr('class', 'test')
         .on('mouseover', function(d) {
           div.transition()
               .duration(200)
@@ -69,7 +70,7 @@ class XBar extends React.Component {
   }
 
   render() {
-    return <span></span>
+    return <div></div>
   }
 }
 

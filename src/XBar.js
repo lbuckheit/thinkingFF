@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react';
+/* eslint-disable no-unused-vars */
+import React from 'react';
 import {
-  BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import './App.css';
 import * as input from "./initial_data/2018WRsComplete.json"
-import { select } from 'd3-selection'
-import * as d3 from 'd3'
 
 let WRArr = []
 let WRData = input.default
@@ -34,16 +33,27 @@ let normalized = WRArr.map(function(wr) {
 class XBar extends React.Component {
   constructor(props){
     super(props)
-    this.data = normalized
+    this.data = [...normalized]
+    this.state = {
+      data: {}
+    }
+  }
+
+  componentDidMount() {
   }
 
   componentDidUpdate() {
     let multi = this.props.multi
-    let newArr = [...normalized]
+    let newArr = []
+    for (let i = 0; i < normalized.length; i++) {
+      newArr.push({...normalized[i]})
+    }
     for (let elem of newArr) {
       elem.fpts *= multi
     }
-    this.data = newArr
+    console.log(this.data[0])
+    this.data = [...newArr]
+    console.log(this.data[0])
   }
 
   render () {

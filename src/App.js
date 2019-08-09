@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import XBar from './XBar'
 import WRWeights from './WRWeights'
@@ -9,10 +10,12 @@ class App extends React.Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleTest = this.handleTest.bind(this)
     this.state = {
       algoComponents: [],
       multi: 1
     }
+    this.payload = {}
   }
 
   handleSubmit(value) {
@@ -25,8 +28,11 @@ class App extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({ multi: event.target.value })
-    console.log(this.state)
+    this.payload = event.target.value
+  }
+
+  handleTest() {
+    this.setState({ multi: this.payload })
   }
 
   render() {
@@ -39,7 +45,7 @@ class App extends React.Component {
         <p>Algorithm components:</p>
         {/*{this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem}/>)}*/}
         <div>
-          <button>Update A-scores</button>
+          <button onClick={this.handleTest}>Update A-scores</button>
           <input onChange={(e) => this.handleChange(e)}></input>
         </div>
         <XBar multi={this.state.multi}/>

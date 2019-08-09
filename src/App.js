@@ -3,16 +3,32 @@ import XBar from './XBar'
 import WRWeights from './WRWeights'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <div height='250px'>
-        BANNER
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {
+      algoComponents: []
+    }
+  }
+
+  handleSubmit(value) {
+    this.setState({
+      algoComponents: [...this.state.algoComponents, value]
+    })
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <div height='250px'>
+          BANNER
+        </div>
+        <WRWeights handleSubmit={this.handleSubmit}/>
+        <XBar />
       </div>
-      <WRWeights />
-      <XBar />
-    </div>
-  );
+    );
+  }
 }
 
 export default App;

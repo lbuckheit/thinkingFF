@@ -8,8 +8,10 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.state = {
-      algoComponents: []
+      algoComponents: [],
+      multi: 1
     }
   }
 
@@ -22,19 +24,25 @@ class App extends React.Component {
     })
   }
 
+  handleChange(event) {
+    this.setState({ multi: event.target.value })
+    console.log(this.state)
+  }
+
   render() {
     return (
       <div className="App">
         <div height='250px'>
           BANNER
         </div>
-        <WRWeights handleSubmit={this.handleSubmit}/>
+        {/*<WRWeights handleSubmit={this.handleSubmit}/>*/}
         <p>Algorithm components:</p>
-        {this.state.algoComponents.map(elem => <WeightRow statistic={elem}/>)}
+        {/*{this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem}/>)}*/}
         <div>
           <button>Update A-scores</button>
+          <input onChange={(e) => this.handleChange(e)}></input>
         </div>
-        <XBar />
+        <XBar multi={this.state.multi}/>
       </div>
     );
   }

@@ -13,14 +13,10 @@ class WRWeights extends React.Component {
 
   }
 
-  capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   render() {
     return (
       <span className='flex-span'>
-        {this.capitalize(this.props.statistic)}: <input name={this.props.statistic} size='10' type='number'></input>
+        whatever: <input name={this.props.statistic} size='10' type='number'></input>
       </span>
     );
   }

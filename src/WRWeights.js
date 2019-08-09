@@ -21,8 +21,9 @@ class WRWeights extends React.Component {
         <h3>Select a statistic to include in your algorithm</h3>
         <select onChange={(e) => this.setState({ target: e.target.value })}>
           <option selected value='receiving_rec'>receiving_rec</option>
-          <option value='receiving_tgt'>receiving_tgt</option>
+          <option value='receiving_tar'>receiving_tar</option>
           <option value='receiving_tds'>receiving_tds</option>
+          <option value='receiving_yds'>receiving_yds</option>
         </select>
         <button type='submit'>Add to algorithm</button>
       </form>

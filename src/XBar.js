@@ -17,7 +17,7 @@ class XBar extends React.Component {
        <CartesianGrid strokeDasharray="3 3"/>
        <XAxis dataKey="name"/>
        <YAxis/>
-       <Tooltip/>
+       <Tooltip/>z
        <Legend />
        <Bar dataKey="fpts" fill="#8884d8" />
       </BarChart>

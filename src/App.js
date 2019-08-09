@@ -23,12 +23,7 @@ WRArr = WRArr.filter(wr => wr.ADP)
 WRArr.sort((a, b) => a.ADP - b.ADP)
 
 function fantasyPoints(wr, weightsObj = {}) {
-  //console.log('weightsobj', weightsObj['receiving_rec'])
-  //console.log('rec', wr.receiving_rec)
-  //console.log('Test weight', Number(wr.receiving_rec * weightsObj['receiving_rec']))
-  //let fpts = Number(wr.receiving_rec * weightsObj['receiving_rec'])
-  let fpts = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0)
-  //console.log(fpts)
+  let fpts = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0) + Number(wr.receiving_tar * weightsObj['receiving_tar'] || 0)
   return fpts > 0 ? fpts : 0
 }
 
@@ -43,7 +38,6 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.updateData = this.updateData.bind(this)
     this.handleTest = this.handleTest.bind(this)
-    //this.handleAlgo = this.handleAlgo.bind(this)
     this.state = {
       algoComponents: [],
       weightsObj: {},
@@ -77,7 +71,7 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('state on update', this.state.weightsObj)
+    console.log('state on update', this.state.data[0])
   }
 
 /*   handleAlgo(key, value) {

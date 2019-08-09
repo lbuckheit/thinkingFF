@@ -19,7 +19,6 @@ class XBar extends React.Component {
   }
 
   createXBar() {
-    const node = this.node
     let WRArr = []
     let WRData = input.default
 
@@ -66,7 +65,7 @@ class XBar extends React.Component {
               .style("top", (d3.event.pageY - 28) + "px");
         })
         .style("width", function(d) { return d.fpts + "px"; })
-        .text(function(d) { return d.fpts; });
+        .text(function(d) { return 'A-score: ' + d.fpts; });
   }
 
   render() {

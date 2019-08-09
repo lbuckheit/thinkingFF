@@ -5,7 +5,7 @@ class WRWeights extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      target: ''
+      target: 'receptions'
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -20,7 +20,7 @@ class WRWeights extends React.Component {
       <form onSubmit={(event) => this.handleSubmit(event)}>
         <h3>Select a statistic to include in your algorithm</h3>
         <select onChange={(e) => this.setState({ target: e.target.value })}>
-          <option value='receptions'>Receptions</option>
+          <option selected value='receptions'>Receptions</option>
           <option value='targets'>Targets</option>
           <option value='receiving_tds'>Receiving Touchdowns</option>
         </select>

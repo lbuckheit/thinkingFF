@@ -4,6 +4,7 @@ const QB = {name: 'QB', url: 'https://www.fantasypros.com/nfl/rankings/qb-cheats
 const pprRB = {name: 'pprRB', url: 'https://www.fantasypros.com/nfl/rankings/ppr-rb-cheatsheets.php'}
 const pprWR = {name: 'pprWR', url: 'https://www.fantasypros.com/nfl/rankings/ppr-wr-cheatsheets.php'}
 const pprTE = {name: 'pprTE', url: 'https://www.fantasypros.com/nfl/rankings/ppr-te-cheatsheets.php'}
+//This array holds objects with the name of the category and the url, to be looped through in scraping
 const pages = [QB, pprRB, pprWR, pprTE]
 
 //This loops thorough each page (category of player), scrapes their data, and prints it to a file as JSON data for parsing

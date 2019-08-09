@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts';
 import './App.css';
-import * as input from "./initial_data/2018WRsComplete.json"
+/* import * as input from "./initial_data/2018WRsComplete.json"
 
 let WRArr = []
 let WRData = input.default
@@ -28,22 +28,22 @@ function fantasyPoints(wr) {
 //Normalize/functionalize the data being graphed
 let normalized = WRArr.map(function(wr) {
   return {...wr, fpts: fantasyPoints(wr)}
-})
+}) */
 
 class XBar extends React.Component {
   constructor(props){
     super(props)
-    this.data = [...normalized]
+/*     this.data = [...normalized]
     this.state = {
       data: {}
-    }
+    } */
   }
 
   componentDidMount() {
   }
 
   componentDidUpdate() {
-    let multi = this.props.multi
+    /* let multi = this.props.multi
     let newArr = []
     for (let i = 0; i < normalized.length; i++) {
       newArr.push({...normalized[i]})
@@ -51,14 +51,12 @@ class XBar extends React.Component {
     for (let elem of newArr) {
       elem.fpts *= multi
     }
-    console.log(this.data[0])
-    this.data = [...newArr]
-    console.log(this.data[0])
+    this.data = [...newArr] */
   }
 
   render () {
     return (
-    	<BarChart width={600} height={300} data={this.data}
+    	<BarChart width={600} height={300} data={this.props.data}
             margin={{top: 5, right: 30, left: 20, bottom: 5}}>
        <CartesianGrid strokeDasharray="3 3"/>
        <XAxis dataKey="name"/>

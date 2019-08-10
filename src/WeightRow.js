@@ -4,6 +4,9 @@ import './App.css';
 class WRWeights extends React.Component {
   constructor(props) {
     super(props)
+
+    //State components:
+    //value: the initial weight on the statistic that this row represents.  Initial value before any user input is zero
     this.state = {
       value: 0
     }
@@ -12,11 +15,13 @@ class WRWeights extends React.Component {
   }
 
   handleSubmit(event) {
+    //when the submit button is clicked, send the value on state (also the value in the field), to the higher level component along with the name of the stat for this row, to be incorporated in a recalculation of the algorithm score
     event.preventDefault()
-    this.props.handleTest(this.props.statistic, this.state.value)
+    this.props.handleWeightChange(this.props.statistic, this.state.value)
   }
 
   handleChange(event) {
+    //when the value in the input changes, update the local state for this component with the value
     this.setState({ value: event.target.value })
   }
 

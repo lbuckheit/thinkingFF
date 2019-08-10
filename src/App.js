@@ -28,11 +28,6 @@ function fantasyPoints(wr, weightsObj = {}) {
   return fpts > 0 ? fpts : 0
 }
 
-//Normalize/functionalize the data being graphed (NOT REALLY SURE WHAT THIS DOES RIGHT NOW)
-let normalized = WRArr.map(function(wr) {
-  return {...wr, fpts: fantasyPoints(wr)}
-})
-
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -40,7 +35,7 @@ class App extends React.Component {
     //Binding the methods
     this.handleAddCategorySubmit = this.handleAddCategorySubmit.bind(this)
     this.updateData = this.updateData.bind(this)
-    this.handleTest = this.handleTest.bind(this)
+    this.handleWeightChange = this.handleWeightChange.bind(this)
 
     //State components:
     //algoComponents: a list of the elements that are currently included in the algorithm
@@ -49,7 +44,7 @@ class App extends React.Component {
     this.state = {
       algoComponents: [],
       weightsObj: {},
-      data: [...normalized]
+      graphingData: []
     }
   }
 
@@ -64,20 +59,22 @@ class App extends React.Component {
   }
 
   updateData(weightsObj) {
+    //Create a new array, push a copy of each player object to it, set the algorithm score as a property on each player, and set the updated graphing data on state
     let newArr = []
-    for (let i = 0; i < normalized.length; i++) {
-      newArr.push({...normalized[i]})
+    for (let elem of WRArr) {
+      newArr.push({...elem})
     }
     for (let elem of newArr) {
       elem.fpts = fantasyPoints(elem, weightsObj)
     }
-    this.setState({ data: [...newArr]})
+    this.setState({ graphingData: [...newArr]})
   }
 
   componentDidUpdate() {
   }
 
-  handleTest(statistic, value) {
+  handleWeightChange(statistic, value) {
+    //Take in a statistc and it's updated weight, set that updated value on a copy of the existing weights object, set it on state for future reference, and then update the data with the new weights object
     let newWeights = {...this.state.weightsObj}
     newWeights[statistic] = value
     this.setState({ weightsObj: newWeights})
@@ -92,8 +89,8 @@ class App extends React.Component {
         </div>
         <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit}/>
         <p>Algorithm components:</p>
-        {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleTest={this.handleTest}/>)}
-        <XBar data={this.state.data}/>
+        {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
+        <XBar data={this.state.graphingData}/>
       </div>
     );
   }

@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-} from 'recharts';
 import './App.css';
 
-class CustomToolTip extends React.Component {
+class CustomTooltip extends React.Component {
     constructor(props) {
       super(props)
       console.log(props.data)
@@ -12,6 +9,9 @@ class CustomToolTip extends React.Component {
 
     render() {
       const { active } = this.props;
+      console.log(this.props)
+      console.log('BBBBBB')
+      console.log(this.props.payload)
 
       if (active) {
         const { payload, label } = this.props;
@@ -26,4 +26,4 @@ class CustomToolTip extends React.Component {
     }
   }
 
-export default CustomToolTip
+export default CustomTooltip

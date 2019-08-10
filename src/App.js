@@ -64,8 +64,11 @@ class App extends React.Component {
     for (let elem of WRArr) {
       newArr.push({...elem})
     }
-    for (let elem of newArr) {
-      elem.AScore = algoScore(elem, weightsObj)
+    for (let i = 0; i < newArr.length; i++) {
+      newArr[i].AScore = algoScore(newArr[i], weightsObj)
+
+      //This position property is necessary for selecting the elements to show tooltips in the chart component
+      newArr[i].position = i
     }
     this.setState({ graphingData: [...newArr]})
   }

@@ -76,6 +76,7 @@ class App extends React.Component {
     this.updateData = this.updateData.bind(this)
     this.handleWeightChange = this.handleWeightChange.bind(this)
     this.handleGamesPlayed = this.handleGamesPlayed.bind(this)
+    this.handlePositionChange = this.handlePositionChange.bind(this)
 
     //State components:
     //algoComponents: a list of the elements that are currently included in the algorithm
@@ -90,7 +91,7 @@ class App extends React.Component {
       graphingData: [],
       gamesPlayed: false,
       playerData: [...sortedPositionArr],
-      selectedPositionIndex: 2
+      selectedPositionIndex: 0
     }
   }
 
@@ -145,6 +146,25 @@ class App extends React.Component {
     this.updateData(newWeights, this.state.selectedPositionIndex)
   }
 
+  handlePositionChange(position) {
+    switch (position) {
+      case 'QB':
+        this.setState({selectedPositionIndex: 0})
+        break
+      case 'RB':
+        this.setState({selectedPositionIndex: 1})
+        break
+      case 'WR':
+        this.setState({selectedPositionIndex: 2})
+        break
+      case 'TE':
+        this.setState({selectedPositionIndex: 3})
+        break
+      default:
+        return
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -158,6 +178,15 @@ class App extends React.Component {
           ------
         </div>
         <div>
+        <span>
+            <h3>Please select a position:</h3>
+            <select onChange={(e) => this.handlePositionChange(e.target.value)}>
+              <option value='QB'>QB</option>
+              <option value='RB'>RB</option>
+              <option value='WR'>WR</option>
+              <option value='TE'>TE</option>
+            </select>
+          </span>
           <h3>Scale counting stats by games played?</h3>
           <label className="switch">
             <input type="checkbox" onClick={this.handleGamesPlayed}></input>

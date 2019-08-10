@@ -12,7 +12,7 @@ class WRWeights extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.props.handleSubmit(this.state.target)
+    this.props.handleAddCategorySubmit(this.state.target)
   }
 
   render() {

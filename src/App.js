@@ -36,15 +36,18 @@ class App extends React.Component {
     this.handleAddCategorySubmit = this.handleAddCategorySubmit.bind(this)
     this.updateData = this.updateData.bind(this)
     this.handleWeightChange = this.handleWeightChange.bind(this)
+    this.handleGamesPlayed = this.handleGamesPlayed.bind(this)
 
     //State components:
     //algoComponents: a list of the elements that are currently included in the algorithm
     //weightsObj: a dictionary mapping the name of the statistic to its weight in the algorithm
     //data: an array of single player objects with the current algorithm score as a property on each player
+    //gamesPlayed: a bool that determines whether to scale the data by games played in 2018
     this.state = {
       algoComponents: [],
       weightsObj: {},
-      graphingData: []
+      graphingData: [],
+      gamesPlayed: false
     }
   }
 
@@ -65,7 +68,12 @@ class App extends React.Component {
       newArr.push({...elem})
     }
     for (let i = 0; i < newArr.length; i++) {
-      newArr[i].AScore = algoScore(newArr[i], weightsObj)
+      //Determining whether to scale by games played
+      if (!this.state.gamesPlayed) {
+        newArr[i].AScore = algoScore(newArr[i], weightsObj)
+      } else {
+        newArr[i].AScore = algoScore(newArr[i], weightsObj) / newArr[i].games
+      }
 
       //This position property is necessary for selecting the elements to show tooltips in the chart component
       newArr[i].position = i
@@ -74,6 +82,14 @@ class App extends React.Component {
   }
 
   componentDidUpdate() {
+  }
+
+  handleGamesPlayed() {
+    //Toggling the gamesPlayed bool on and off
+    this.setState({gamesPlayed: !this.state.gamesPlayed}, function() {
+      //Updating the data as soon as you toggle and the new state is set
+      this.updateData(this.state.weightsObj, !this.state.gamesPlayed)
+    })
   }
 
   handleWeightChange(statistic, value) {
@@ -88,10 +104,23 @@ class App extends React.Component {
     return (
       <div className="App">
         <div height='250px'>
+          ------
+          ------
+          ------
           BANNER
+          ------
+          ------
+          ------
+        </div>
+        <div>
+          <h3>Scale counting stats by games played?</h3>
+          <label className="switch">
+            <input type="checkbox" onClick={this.handleGamesPlayed}></input>
+            <span className="slider round"></span>
+          </label>
         </div>
         <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit}/>
-        <p>Algorithm components:</p>
+        <h3>Algorithm components:</h3>
         {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
         <XBar data={this.state.graphingData}/>
       </div>

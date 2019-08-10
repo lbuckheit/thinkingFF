@@ -18,7 +18,7 @@ class XBar extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      activeIndex: 0
+      activeIndex: null
     }
     this.renderBarTooltip = this.renderBarTooltip.bind(this)
   }
@@ -35,13 +35,13 @@ class XBar extends React.Component {
     	<BarChart width={800} height={400} data={this.props.data}
             margin={{top: 5, right: 30, left: 20, bottom: 5}}>
        <CartesianGrid strokeDasharray="0 0"/>
-       <XAxis dataKey="name" />
+       <XAxis dataKey='name' />
        <YAxis/>
        <Tooltip />
        <Legend />
        <Bar onMouseOver={(index) => this.renderBarTooltip(index)} dataKey="AScore" fill="#8884d8" onClick={this.handleClick} />
       </BarChart>
-      <p className="content">{`AScore of "${activeItem.name}": ${activeItem.AScore}`}</p>
+      <p className="content">{activeItem.name ? `AScore of "${activeItem.name}": ${activeItem.AScore}` : ''}</p>
       </div>
     );
   }

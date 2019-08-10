@@ -19,7 +19,7 @@ class XBar extends React.Component {
        <YAxis/>
        <Tooltip/>
        <Legend />
-       <Bar dataKey="fpts" fill="#8884d8" />
+       <Bar dataKey="AScore" fill="#8884d8" />
       </BarChart>
     );
   }

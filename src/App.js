@@ -23,9 +23,9 @@ WRArr = WRArr.filter(wr => wr.ADP)
 WRArr.sort((a, b) => a.ADP - b.ADP)
 
 //This function, currently misnamed, calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
-function fantasyPoints(wr, weightsObj = {}) {
-  let fpts = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0) + Number(wr.receiving_tar * weightsObj['receiving_tar'] || 0)
-  return fpts > 0 ? fpts : 0
+function algoScore(wr, weightsObj = {}) {
+  let AScore = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0) + Number(wr.receiving_tar * weightsObj['receiving_tar'] || 0)
+  return AScore > 0 ? AScore : 0
 }
 
 class App extends React.Component {
@@ -65,7 +65,7 @@ class App extends React.Component {
       newArr.push({...elem})
     }
     for (let elem of newArr) {
-      elem.fpts = fantasyPoints(elem, weightsObj)
+      elem.AScore = algoScore(elem, weightsObj)
     }
     this.setState({ graphingData: [...newArr]})
   }

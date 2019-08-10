@@ -6,14 +6,6 @@ import {
 //import CustomTooltip from './CustomTooltip'
 import './App.css';
 
-//-----------------------------------------------------------
-//-----------------------------------------------------------
-//-----------------------------------------------------------
-//BIG TIME NOTE:RIGHT NOW THIS LIST OF 50 IS NOT THE 50 TOP SCORERS FROM LAST SEASON.  IT IS THE 50 RECEIVERS WITH THE MOST YARDS
-//-----------------------------------------------------------
-//-----------------------------------------------------------
-//-----------------------------------------------------------
-
 class XBar extends React.Component {
   constructor(props){
     super(props)

@@ -5,24 +5,39 @@ import WRWeights from './WRWeights'
 import WeightRow from './WeightRow'
 import './App.css';
 
-import * as input from "./initial_data/2018WRsComplete.json"
+import * as QBInput from "./initial_data/2018QBsComplete.json"
+import * as RBInput from "./initial_data/2018RBsComplete.json"
+import * as WRInput from "./initial_data/2018WRsComplete.json"
+import * as TEInput from "./initial_data/2018TEsComplete.json"
 
 //This stuff above the component processes the data initially for use by react and the charts
-let WRArr = []
-let WRData = input.default
+//creating an array of each position to be processed
+let inputs = [QBInput, RBInput, WRInput, TEInput]
 
-//Pushing the single player objects to an array
-for (let wr of Object.keys(WRData)) {
-  WRArr.push(WRData[wr])
+//Creating some variables to hold the ordered players by position, and then an array to hold them all for processing
+let QBArr = []
+let RBArr = []
+let WRArr = []
+let TEArr = []
+let positionArr = [QBArr, RBArr, WRArr, TEArr]
+
+for (let i = 0; i < inputs.length; i++) {
+  let playerArr = positionArr[i]
+  let playerData = inputs[i].default
+
+  //Pushing the single player objects to an array
+  for (let player of Object.keys(playerData)) {
+    playerArr.push(playerData[player])
+  }
+
+  //Filter out players who don't have an ADP because they retired or suck
+  playerArr = playerArr.filter(player => player.ADP)
+
+  //Sort by whatever you want (in this case, I am sorting by ADP on the x axis, and then the y axis represents the results of your personal algorithm)
+  playerArr.sort((a, b) => a.ADP - b.ADP)
 }
 
-//Filter out players who don't have an ADP because they retired or suck
-WRArr = WRArr.filter(wr => wr.ADP)
-
-//Sort by whatever you want (in this case, I am sorting by ADP on the x axis, and then the y axis represents the results of your personal algorithm)
-WRArr.sort((a, b) => a.ADP - b.ADP)
-
-//This function, currently misnamed, calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
+//This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
 function algoScore(wr, weightsObj = {}) {
   let AScore = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0) + Number(wr.receiving_tar * weightsObj['receiving_tar'] || 0)
   return AScore > 0 ? AScore : 0
@@ -79,9 +94,6 @@ class App extends React.Component {
       newArr[i].position = i
     }
     this.setState({ graphingData: [...newArr]})
-  }
-
-  componentDidUpdate() {
   }
 
   handleGamesPlayed() {

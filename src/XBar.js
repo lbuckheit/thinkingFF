@@ -17,17 +17,22 @@ import './App.css';
 class XBar extends React.Component {
   constructor(props){
     super(props)
+    //State components:
+    //activeIndex: which bar is currently being moused over to display the tooltip
     this.state = {
       activeIndex: null
     }
+    //Binding methods
     this.renderBarTooltip = this.renderBarTooltip.bind(this)
   }
 
+  //Sets the state to whichever bar is being moused over so data can be displayed
   renderBarTooltip(index) {
     this.setState({activeIndex: index.position})
   }
 
   render () {
+    //Declaring the index currently being moused over, and declaring a variable for that item's data
     const activeIndex = this.state.activeIndex
     const activeItem = this.props.data[activeIndex] || {name: '', AScore: null};
     return (

@@ -5,7 +5,7 @@ class WRWeights extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      target: this.props.selectedPositionArr[0],
+      target: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -14,10 +14,6 @@ class WRWeights extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     this.props.handleAddCategorySubmit(this.state.target)
-  }
-
-  componentDidUpdate() {
-    console.log('inwrweights', this.state.selectedPositionArr)
   }
 
   handleChange(event) {
@@ -29,6 +25,7 @@ class WRWeights extends React.Component {
       <form onSubmit={(event) => this.handleSubmit(event)}>
         <h3>Select a statistic to include in your algorithm</h3>
         <select onChange={(e) => this.handleChange(e)}>
+          <option>Pick one</option>
           {this.props.selectedPositionArr.map(elem => <option key={elem} value={elem}>{elem}</option>)}
         </select>
         <button type='submit'>Add to algorithm</button>

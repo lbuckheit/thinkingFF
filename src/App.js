@@ -193,7 +193,7 @@ class App extends React.Component {
           ------
         </div>
         <div>
-        <span>
+          <span>
             <h3>Please select a position:</h3>
             <select onChange={(e) => this.handlePositionChange(e.target.value)}>
               <option value='QB'>QB</option>
@@ -202,16 +202,26 @@ class App extends React.Component {
               <option value='TE'>TE</option>
             </select>
           </span>
-          <h3>Scale counting stats by games played?</h3>
-          <label className="switch">
-            <input type="checkbox" onClick={this.handleGamesPlayed}></input>
-            <span className="slider round"></span>
-          </label>
+          <span>
+            <h3>Scale counting stats by games played?</h3>
+            <label className="switch">
+              <input type="checkbox" onClick={this.handleGamesPlayed}></input>
+              <span className="slider round"></span>
+            </label>
+          </span>
         </div>
-        <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit} selectedPositionArr={this.catsArr[this.state.selectedPositionIndex]}/>
-        <h3>Algorithm components:</h3>
-        {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
-        <XBar data={this.state.graphingData}/>
+        <div>
+          <div>
+            <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit} selectedPositionArr={this.catsArr[this.state.selectedPositionIndex]}/>
+          </div>
+          <div>
+            <h3>Algorithm components:</h3>
+            {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
+          </div>
+          <div>
+            <XBar data={this.state.graphingData}/>
+          </div>
+        </div>
       </div>
     );
   }

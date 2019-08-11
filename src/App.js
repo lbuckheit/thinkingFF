@@ -79,7 +79,7 @@ class App extends React.Component {
     }
 
     //These arrays hold the statistics that will appear in the dropdown for each position
-    this.QBCats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk']
+    this.QBCats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk', 'rushing_att', 'rushing_tds', 'rushing_yds']
     this.RBCats = ['rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
     this.WRCats = ['receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
     this.TECats = [...this.WRCats]

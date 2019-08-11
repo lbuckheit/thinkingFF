@@ -10,7 +10,7 @@ TEs = {}
 
 #This quereys the DB for all quarterbacks in 2018, sorts by passing yards, and picks the top 10
 for pp in q.sort('receiving_yds').limit(50).as_aggregate():
-    TEs[pp.player.full_name] = {"name": pp.player.full_name, "receiving_yds": pp.receiving_yds, "receiving_rec": pp.receiving_rec, "receiving_tds": pp.receiving_tds}
+    TEs[pp.player.full_name] = {"name": pp.player.full_name, "receiving_yds": pp.receiving_yds, "receiving_rec": pp.receiving_rec, "receiving_tds": pp.receiving_tds, "receiving_tar": pp.receiving_tar}
 
 #This grabs the 2018 games played data to be appended to the QB stats
 with open('2018GP.json', mode='r') as gamesPlayed:

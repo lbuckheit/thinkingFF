@@ -43,12 +43,28 @@ for (let i = 0; i < inputs.length; i++) {
 }
 
 //This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
-function algoScore(player, weightsObj = {}, selectedPositionIndex) {
+function algoScore(player, weightsObj = {}) {
   let AScore = 0
   for (let key in weightsObj) {
     AScore += Number(player[key] * weightsObj[key] || 0)
   }
   return AScore > 0 ? AScore : 0
+}
+
+//Normalizes a stat (scales it so that the #1 player for that stat gets a score of 1, and all others are their proportion of the top guy)
+function normalizeStats(players, weightsObj = {}) {
+  for (let key in weightsObj) {
+    let largest = 0
+    for (let player of players) {
+      if (player[key] > largest) {
+        largest = player[key]
+      }
+    }
+    for (let player of players) {
+      player[key] /= largest
+    }
+  }
+  return players
 }
 
 class App extends React.Component {
@@ -80,7 +96,7 @@ class App extends React.Component {
 
     //These arrays hold the statistics that will appear in the dropdown for each position
     this.QBCats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk', 'rushing_att', 'rushing_tds', 'rushing_yds', 'cmp_air_yds', 'incmp_air_yds', 'total_air_yds', 'ypa', 'total_air_ypa', 'cmp_air_ypa', 'td:int_ratio', 'td_rate']
-    this.RBCats = ['rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
+    this.RBCats = ['rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds', 'ypa', 'rushing_td_rate', 'ypc', 'ypt', 'receiving_td_per_target']
     this.WRCats = ['receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
     this.TECats = [...this.WRCats]
     this.catsArr = [this.QBCats, this.RBCats, this.WRCats, this.TECats]
@@ -102,12 +118,15 @@ class App extends React.Component {
     for (let elem of this.state.playerData[positionIndex]) {
       newArr.push({...elem})
     }
+
+    //Normalizing the stats
+    newArr = normalizeStats(newArr, weightsObj)
+
     for (let i = 0; i < newArr.length; i++) {
       //Determining whether to scale by games played
       if (!this.state.gamesPlayed) {
         newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex)
       } else {
-        console.log('a score', newArr[i], weightsObj, positionIndex)
         newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex) / newArr[i].games
       }
 

@@ -78,6 +78,7 @@ class App extends React.Component {
       selectedPositionIndex: 0
     }
 
+    //These arrays hold the statistics that will appear in the dropdown for each position
     this.QBCats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk']
     this.RBCats = ['rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
     this.WRCats = ['receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
@@ -116,12 +117,6 @@ class App extends React.Component {
     this.setState({ graphingData: [...newArr]})
   }
 
-  componentDidMount() {
-  }
-
-  componentDidUpdate() {
-  }
-
   //Toggle the gamesPlayed bool on and off and then update the data once the new state is set
   handleGamesPlayed() {
     this.setState({gamesPlayed: !this.state.gamesPlayed}, function() {
@@ -137,6 +132,7 @@ class App extends React.Component {
     this.updateData(newWeights, this.state.selectedPositionIndex)
   }
 
+  //Update the positionIndex on change so that we're accessing the right kind of players, and also reset the algoComponents and graphing data so that the user gets a clean slate with the new position
   handlePositionChange(position) {
     switch (position) {
       case 'QB':
@@ -195,6 +191,7 @@ class App extends React.Component {
             {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
           </div>
           <div>
+            {/*<----------------------------------------------------------------TRY TO RECREATE KELCE 157 TOUCHDOWNS*/}
             <XBar data={this.state.graphingData}/>
           </div>
         </div>

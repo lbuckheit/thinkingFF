@@ -164,16 +164,16 @@ class App extends React.Component {
   handlePositionChange(position) {
     switch (position) {
       case 'QB':
-        this.setState({selectedPositionIndex: 0, algoComponents: []})
+        this.setState({selectedPositionIndex: 0, algoComponents: [], graphingData: []})
         break
       case 'RB':
-        this.setState({selectedPositionIndex: 1, algoComponents: []})
+        this.setState({selectedPositionIndex: 1, algoComponents: [], graphingData: []})
         break
       case 'WR':
-        this.setState({selectedPositionIndex: 2, algoComponents: []})
+        this.setState({selectedPositionIndex: 2, algoComponents: [], graphingData: []})
         break
       case 'TE':
-        this.setState({selectedPositionIndex: 3, algoComponents: []})
+        this.setState({selectedPositionIndex: 3, algoComponents: [], graphingData: []})
         break
       default:
         return

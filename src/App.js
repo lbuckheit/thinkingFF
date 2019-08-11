@@ -47,11 +47,15 @@ function algoScore(player, weightsObj = {}, selectedPositionIndex) {
   switch (selectedPositionIndex) {
     case 0:
       let qb = player
-      console.log('IN QB')
+      for (let key in weightsObj) {
+        AScore += Number(qb[key] * weightsObj[key] || 0)
+      }
       break
     case 1:
       let rb = player
-      console.log('IN RB')
+      for (let key in weightsObj) {
+        AScore += Number(rb[key] * weightsObj[key] || 0)
+      }
       break
     case 2:
       let wr = player
@@ -61,7 +65,9 @@ function algoScore(player, weightsObj = {}, selectedPositionIndex) {
       break
     case 3:
       let te = player
-      console.log('IN TE')
+      for (let key in weightsObj) {
+        AScore += Number(te[key] * weightsObj[key] || 0)
+      }
       break
     default:
       return
@@ -97,8 +103,8 @@ class App extends React.Component {
     }
   }
 
+  //This checks whether the category is already included in the algorithm and displayed on the screen
   handleAddCategorySubmit(value) {
-    //This checks whether the category is already included in the algorithm and displayed on the screen
     if (this.state.algoComponents.includes(value)) {
       return
     }
@@ -107,8 +113,8 @@ class App extends React.Component {
     })
   }
 
+  //Create a new array, push a copy of each player object to it, set the algorithm score as a property on each player, and set the updated graphing data on state
   updateData(weightsObj, positionIndex) {
-    //Create a new array, push a copy of each player object to it, set the algorithm score as a property on each player, and set the updated graphing data on state
     let newArr = []
     for (let elem of this.state.playerData[positionIndex]) {
       newArr.push({...elem})
@@ -118,6 +124,7 @@ class App extends React.Component {
       if (!this.state.gamesPlayed) {
         newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex)
       } else {
+        console.log('a score', newArr[i], weightsObj, positionIndex)
         newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex) / newArr[i].games
       }
 
@@ -128,19 +135,20 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.playerData)
   }
 
+  componentDidUpdate() {
+  }
+
+  //Toggle the gamesPlayed bool on and off and then update the data once the new state is set
   handleGamesPlayed() {
-    //Toggling the gamesPlayed bool on and off
     this.setState({gamesPlayed: !this.state.gamesPlayed}, function() {
-      //Updating the data as soon as you toggle and the new state is set
       this.updateData(this.state.weightsObj, this.state.selectedPositionIndex)
     })
   }
 
+  //Take in a statistc and it's updated weight, set that updated value on a copy of the existing weights object, set it on state for future reference, and then update the data with the new weights object
   handleWeightChange(statistic, value) {
-    //Take in a statistc and it's updated weight, set that updated value on a copy of the existing weights object, set it on state for future reference, and then update the data with the new weights object
     let newWeights = {...this.state.weightsObj}
     newWeights[statistic] = value
     this.setState({ weightsObj: newWeights})
@@ -194,7 +202,7 @@ class App extends React.Component {
             <span className="slider round"></span>
           </label>
         </div>
-        <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit}/>
+        <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit} selectedPositionIndex={this.state.selectedPositionIndex}/>
         <h3>Algorithm components:</h3>
         {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
         <XBar data={this.state.graphingData}/>

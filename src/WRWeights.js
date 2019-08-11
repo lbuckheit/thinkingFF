@@ -4,10 +4,17 @@ import './App.css';
 class WRWeights extends React.Component {
   constructor(props) {
     super(props)
+    this.QBCats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk']
+    this.RBCats = ['rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
+    this.WRCats = ['receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
+    this.TECats = [...this.WRCats]
+    this.catsArr = [this.QBCats, this.RBCats, this.WRCats, this.TECats]
     this.state = {
-      target: 'receiving_rec'
+      target: this.catsArr[this.props.selectedPositionIndex][0],
+      selectedPositionArr: this.catsArr[this.props.selectedPositionIndex]
     }
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   handleSubmit(event) {
@@ -15,15 +22,20 @@ class WRWeights extends React.Component {
     this.props.handleAddCategorySubmit(this.state.target)
   }
 
+  componentDidUpdate() {
+    console.log('inwrweights', this.state.selectedPositionArr)
+  }
+
+  handleChange(event) {
+    this.setState({ target: event.target.value })
+  }
+
   render() {
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
         <h3>Select a statistic to include in your algorithm</h3>
-        <select onChange={(e) => this.setState({ target: e.target.value })}>
-          <option selected value='receiving_rec'>receiving_rec</option>
-          <option value='receiving_tar'>receiving_tar</option>
-          <option value='receiving_tds'>receiving_tds</option>
-          <option value='receiving_yds'>receiving_yds</option>
+        <select onChange={(e) => this.handleChange(e)}>
+          {this.state.selectedPositionArr.map(elem => <option key={elem} value={elem}>{elem}</option>)}
         </select>
         <button type='submit'>Add to algorithm</button>
       </form>

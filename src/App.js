@@ -43,7 +43,7 @@ for (let i = 0; i < inputs.length; i++) {
 
 //This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
 function algoScore(player, weightsObj = {}, selectedPositionIndex) {
-  let AScore
+  let AScore = 0
   switch (selectedPositionIndex) {
     case 0:
       let qb = player
@@ -55,7 +55,9 @@ function algoScore(player, weightsObj = {}, selectedPositionIndex) {
       break
     case 2:
       let wr = player
-      AScore = Number(wr.receiving_yds * weightsObj['receiving_yds'] || 0) + Number(wr.receiving_tds * weightsObj['receiving_tds'] || 0) + Number(wr.receiving_rec * weightsObj['receiving_rec'] || 0) + Number(wr.receiving_tar * weightsObj['receiving_tar'] || 0)
+      for (let key in weightsObj) {
+        AScore += Number(wr[key] * weightsObj[key] || 0)
+      }
       break
     case 3:
       let te = player
@@ -108,7 +110,6 @@ class App extends React.Component {
   updateData(weightsObj, positionIndex) {
     //Create a new array, push a copy of each player object to it, set the algorithm score as a property on each player, and set the updated graphing data on state
     let newArr = []
-    console.log(positionIndex)
     for (let elem of this.state.playerData[positionIndex]) {
       newArr.push({...elem})
     }

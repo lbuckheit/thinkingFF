@@ -22,6 +22,7 @@ let TEArr = []
 let unsortedPositionArr = [QBArr, RBArr, WRArr, TEArr]
 let sortedPositionArr = []
 
+//Populating each position's array
 for (let i = 0; i < inputs.length; i++) {
   let playerArr = unsortedPositionArr[i]
   let playerData = inputs[i].default
@@ -44,33 +45,8 @@ for (let i = 0; i < inputs.length; i++) {
 //This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
 function algoScore(player, weightsObj = {}, selectedPositionIndex) {
   let AScore = 0
-  switch (selectedPositionIndex) {
-    case 0:
-      let qb = player
-      for (let key in weightsObj) {
-        AScore += Number(qb[key] * weightsObj[key] || 0)
-      }
-      break
-    case 1:
-      let rb = player
-      for (let key in weightsObj) {
-        AScore += Number(rb[key] * weightsObj[key] || 0)
-      }
-      break
-    case 2:
-      let wr = player
-      for (let key in weightsObj) {
-        AScore += Number(wr[key] * weightsObj[key] || 0)
-      }
-      break
-    case 3:
-      let te = player
-      for (let key in weightsObj) {
-        AScore += Number(te[key] * weightsObj[key] || 0)
-      }
-      break
-    default:
-      return
+  for (let key in weightsObj) {
+    AScore += Number(player[key] * weightsObj[key] || 0)
   }
   return AScore > 0 ? AScore : 0
 }

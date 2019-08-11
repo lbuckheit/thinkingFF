@@ -101,6 +101,12 @@ class App extends React.Component {
       playerData: [...sortedPositionArr],
       selectedPositionIndex: 0
     }
+
+    this.QBCats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk']
+    this.RBCats = ['rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
+    this.WRCats = ['receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
+    this.TECats = [...this.WRCats]
+    this.catsArr = [this.QBCats, this.RBCats, this.WRCats, this.TECats]
   }
 
   //This checks whether the category is already included in the algorithm and displayed on the screen
@@ -158,16 +164,16 @@ class App extends React.Component {
   handlePositionChange(position) {
     switch (position) {
       case 'QB':
-        this.setState({selectedPositionIndex: 0})
+        this.setState({selectedPositionIndex: 0, algoComponents: []})
         break
       case 'RB':
-        this.setState({selectedPositionIndex: 1})
+        this.setState({selectedPositionIndex: 1, algoComponents: []})
         break
       case 'WR':
-        this.setState({selectedPositionIndex: 2})
+        this.setState({selectedPositionIndex: 2, algoComponents: []})
         break
       case 'TE':
-        this.setState({selectedPositionIndex: 3})
+        this.setState({selectedPositionIndex: 3, algoComponents: []})
         break
       default:
         return
@@ -202,7 +208,7 @@ class App extends React.Component {
             <span className="slider round"></span>
           </label>
         </div>
-        <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit} selectedPositionIndex={this.state.selectedPositionIndex}/>
+        <WRWeights handleAddCategorySubmit={this.handleAddCategorySubmit} selectedPositionArr={this.catsArr[this.state.selectedPositionIndex]}/>
         <h3>Algorithm components:</h3>
         {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
         <XBar data={this.state.graphingData}/>

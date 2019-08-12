@@ -46,23 +46,22 @@ for (let i = 0; i < inputs.length; i++) {
 let countingStats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk', 'rushing_att', 'rushing_tds', 'rushing_yds', 'cmp_air_yds', 'incmp_air_yds', 'total_air_yds', 'rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
 
 //This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
-function algoScore(player, weightsObj = {}, scaleByGamesPlayed, gamesPlayed = 0) {
+function algoScore(player, weightsObj = {}) {
   let AScore = 0
-  if (!scaleByGamesPlayed) {
-    for (let key in weightsObj) {
-      AScore += Number(player[key] * weightsObj[key] || 0)
-    }
-    return AScore > 0 ? AScore : 0
-  } else {
-    for (let key in weightsObj) {
-      if (countingStats.includes(key)) {
-        AScore += Number(player[key] * weightsObj[key] || 0) / gamesPlayed
-      } else {
-        AScore += Number(player[key] * weightsObj[key] || 0)
-      }
-    }
-    return AScore > 0 ? AScore : 0
+  for (let key in weightsObj) {
+    AScore += Number(player[key] * weightsObj[key] || 0)
   }
+  return AScore > 0 ? AScore : 0
+}
+
+//This goes through each of a player's stats and scales them by games played
+function scaleDataByGamesPlayed(player, weightsObj) {
+  for (let key in weightsObj) {
+    if (countingStats.includes(key)) {
+      player[key] = player[key] / player.games
+    }
+  }
+  return player
 }
 
 //Normalizes a stat (scales it so that the #1 player for that stat gets a score of 1, and all others are their proportion of the top guy)
@@ -121,7 +120,7 @@ class App extends React.Component {
 
   //This checks whether the category is already included in the algorithm and displayed on the screen
   handleAddCategorySubmit(value) {
-    if (this.state.algoComponents.includes(value)) {
+    if (this.state.algoComponents.includes(value) || value === '') {
       return
     }
     this.setState({
@@ -131,28 +130,31 @@ class App extends React.Component {
 
   //Create a new array, push a copy of each player object to it, set the algorithm score as a property on each player, and set the updated graphing data on state
   updateData(weightsObj, positionIndex) {
-    let newArr = []
-    for (let elem of this.state.playerData[positionIndex]) {
-      newArr.push({...elem})
+    let updatedPlayers = []
+
+    //Populating the new array with copies of each player at the relevant position
+    for (let player of this.state.playerData[positionIndex]) {
+      updatedPlayers.push({...player})
     }
 
-    //Normalizing the stats
-    if (this.state.normalize) {
-      newArr = normalizeStats(newArr, weightsObj)
-    }
-
-    for (let i = 0; i < newArr.length; i++) {
-      //Determining whether to scale by games played
-      if (!this.state.gamesPlayed) {
-        newArr[i].AScore = algoScore(newArr[i], weightsObj, false)
-      } else {
-        newArr[i].AScore = (algoScore(newArr[i], weightsObj, true, newArr[i].games))
+    //Scaling by games played if necessary
+    if (this.state.gamesPlayed) {
+      for (let player of updatedPlayers) {
+        player = scaleDataByGamesPlayed(player, weightsObj)
       }
+    }
+    //Normalizing the stats if necessary
+    if (this.state.normalize) {
+      updatedPlayers = normalizeStats(updatedPlayers, weightsObj)
+    }
+
+    for (let i = 0; i < updatedPlayers.length; i++) {
+      updatedPlayers[i].AScore = algoScore(updatedPlayers[i], weightsObj)
 
       //This position property is necessary for selecting the elements to show tooltips in the chart component
-      newArr[i].position = i
+      updatedPlayers[i].position = i
     }
-    this.setState({ graphingData: [...newArr]})
+    this.setState({ graphingData: [...updatedPlayers]})
   }
 
   //Toggle the gamesPlayed bool on and off and then update the data once the new state is set

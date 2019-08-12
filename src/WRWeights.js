@@ -29,7 +29,7 @@ class WRWeights extends React.Component {
   render() {
     return (
       <form onSubmit={(event) => this.handleSubmit(event)}>
-        <h3>Select statistics to include in your algorithm</h3>
+        <h3>Select statistics to include in your algorithm:</h3>
         <select onChange={(e) => this.handleChange(e)}>
           <option>Pick a statistic</option>
           {this.props.selectedPositionArr.map(elem => <option key={elem} value={elem}>{elem}</option>)}

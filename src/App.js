@@ -48,7 +48,7 @@ function algoScore(player, weightsObj = {}) {
   for (let key in weightsObj) {
     AScore += Number(player[key] * weightsObj[key] || 0)
   }
-  return AScore > 0 ? AScore : 0
+  return AScore > 0 ? AScore.toFixed(2) : 0
 }
 
 //Normalizes a stat (scales it so that the #1 player for that stat gets a score of 1, and all others are their proportion of the top guy)
@@ -155,16 +155,16 @@ class App extends React.Component {
   handlePositionChange(position) {
     switch (position) {
       case 'QB':
-        this.setState({selectedPositionIndex: 0, algoComponents: [], graphingData: []})
+        this.setState({selectedPositionIndex: 0, algoComponents: [], graphingData: [], weightsObj: {}})
         break
       case 'RB':
-        this.setState({selectedPositionIndex: 1, algoComponents: [], graphingData: []})
+        this.setState({selectedPositionIndex: 1, algoComponents: [], graphingData: [], weightsObj: {}})
         break
       case 'WR':
-        this.setState({selectedPositionIndex: 2, algoComponents: [], graphingData: []})
+        this.setState({selectedPositionIndex: 2, algoComponents: [], graphingData: [], weightsObj: {}})
         break
       case 'TE':
-        this.setState({selectedPositionIndex: 3, algoComponents: [], graphingData: []})
+        this.setState({selectedPositionIndex: 3, algoComponents: [], graphingData: [], weightsObj: {}})
         break
       default:
         return
@@ -209,9 +209,11 @@ class App extends React.Component {
             <h3>Algorithm components:</h3>
             {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
           </div>
-          <div>
+          <div className='test-wrapper'>
             {/*<----------------------------------------------------------------TRY TO RECREATE KELCE 157 TOUCHDOWNS*/}
-            <XBar data={this.state.graphingData}/>
+            <div className='test-inside'>
+              <XBar data={this.state.graphingData}/>
+            </div>
           </div>
         </div>
       </div>

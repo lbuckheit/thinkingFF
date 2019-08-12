@@ -12,6 +12,14 @@ code {
     monospace;
 }
 
+.test-wrapper {
+  text-align: center;
+}
+
+.test-inside {
+  display: inline-block;
+}
+
 .test {
   font: 10px sans-serif;
   background-color: steelblue;

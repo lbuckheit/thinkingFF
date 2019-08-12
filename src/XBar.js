@@ -29,14 +29,14 @@ class XBar extends React.Component {
     const activeItem = this.props.data[activeIndex] || {name: '', AScore: null};
     return (
       <div>
-    	<BarChart width={800} height={400} data={this.props.data}
-            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-       <CartesianGrid strokeDasharray="0 0"/>
-       <XAxis dataKey='name' />
-       <YAxis/>
+    	<BarChart width={1000} height={500} data={this.props.data}
+            margin={{top: 5, right: 60, left: 20, bottom: 5}}>
+       <CartesianGrid strokeDasharray="2 2" interval={10}/>
+       <XAxis dataKey='name' angle={45} textAnchor='start' interval={0} height={120} width={50} ticks={[]} fontSize={12}/>
+       <YAxis />
        <Tooltip />
        <Legend />
-       <Bar onMouseOver={(index) => this.renderBarTooltip(index)} dataKey="AScore" fill="#8884d8" onClick={this.handleClick} />
+       <Bar onMouseOver={(index) => this.renderBarTooltip(index)} dataKey="AScore" fill="#2196F3" onClick={this.handleClick} />
       </BarChart>
       <p className="content">{activeItem.name ? `AScore of "${activeItem.name}": ${activeItem.AScore}` : ''}</p>
       </div>

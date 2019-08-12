@@ -213,7 +213,7 @@ class App extends React.Component {
             </label>
           </span>
           <span>
-            <h3>Normalize statistics for inclusion?</h3>
+            <h3>Normalize included statistics?</h3>
             <label className="switch">
               <input type="checkbox" onClick={this.handleNormalize}></input>
               <span className="slider round"></span>
@@ -229,7 +229,6 @@ class App extends React.Component {
             {this.state.algoComponents.map(elem => <WeightRow key={elem} statistic={elem} handleAlgo={this.handleAlgo} handleWeightChange={this.handleWeightChange}/>)}
           </div>
           <div className='test-wrapper'>
-            {/*<----------------------------------------------------------------TRY TO RECREATE KELCE 157 TOUCHDOWNS*/}
             <div className='test-inside'>
               <XBar data={this.state.graphingData}/>
             </div>

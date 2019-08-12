@@ -48,7 +48,7 @@ function algoScore(player, weightsObj = {}) {
   for (let key in weightsObj) {
     AScore += Number(player[key] * weightsObj[key] || 0)
   }
-  return AScore > 0 ? AScore.toFixed(2) : 0
+  return AScore > 0 ? AScore : 0
 }
 
 //Normalizes a stat (scales it so that the #1 player for that stat gets a score of 1, and all others are their proportion of the top guy)
@@ -153,6 +153,10 @@ class App extends React.Component {
     this.setState({normalize: !this.state.normalize}, function() {
       this.updateData(this.state.weightsObj, this.state.selectedPositionIndex)
     })
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.graphingData)
   }
 
   //Take in a statistc and it's updated weight, set that updated value on a copy of the existing weights object, set it on state for future reference, and then update the data with the new weights object

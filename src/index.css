@@ -20,6 +20,11 @@ code {
   display: inline-block;
 }
 
+.test-inside2 {
+  display: inline-block;
+  width: 75vw;
+}
+
 .test {
   font: 10px sans-serif;
   background-color: steelblue;

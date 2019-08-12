@@ -48,6 +48,11 @@ function algoScore(player, weightsObj = {}) {
   for (let key in weightsObj) {
     AScore += Number(player[key] * weightsObj[key] || 0)
   }
+
+  //Checking whether the number needs to be truncated to two decimal places
+  if (AScore % Math.floor(AScore) !== 0) {
+    AScore = AScore.toFixed(2)
+  }
   return AScore > 0 ? AScore : 0
 }
 
@@ -132,7 +137,7 @@ class App extends React.Component {
       if (!this.state.gamesPlayed) {
         newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex)
       } else {
-        newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex) / newArr[i].games
+        newArr[i].AScore = (algoScore(newArr[i], weightsObj, positionIndex) / newArr[i].games).toFixed(2)
       }
 
       //This position property is necessary for selecting the elements to show tooltips in the chart component
@@ -153,10 +158,6 @@ class App extends React.Component {
     this.setState({normalize: !this.state.normalize}, function() {
       this.updateData(this.state.weightsObj, this.state.selectedPositionIndex)
     })
-  }
-
-  componentDidUpdate() {
-    console.log(this.state.graphingData)
   }
 
   //Take in a statistc and it's updated weight, set that updated value on a copy of the existing weights object, set it on state for future reference, and then update the data with the new weights object

@@ -34,9 +34,10 @@ class XBar extends React.Component {
           <CartesianGrid strokeDasharray="2 2" interval={10}/>
           <XAxis dataKey='name' angle={45} textAnchor='start' interval={0} height={120} width={50} ticks={[]} fontSize={12} label={ {value: '<-- Higher ADP / Lower ADP -->', dy: 50, dx: -35 }}/>
           <YAxis label={{ value: 'AScore', dx: -50}}/>
+          <Tooltip />
           <Bar onMouseOver={(index) => this.renderBarTooltip(index)} dataKey="AScore" fill="#2196F3" />
         </BarChart>
-        <p className="content">{activeItem.name ? `AScore of ${activeItem.name}: ${activeItem.AScore.toFixed(2)}` : ''}</p>
+        <p className="content">{activeItem.name ? `${activeItem.name}: ${activeItem.AScore.toFixed(2)}` : ''}</p>
       </div>
     );
   }

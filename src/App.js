@@ -42,18 +42,27 @@ for (let i = 0; i < inputs.length; i++) {
   sortedPositionArr.push([...playerArr])
 }
 
-//This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
-function algoScore(player, weightsObj = {}) {
-  let AScore = 0
-  for (let key in weightsObj) {
-    AScore += Number(player[key] * weightsObj[key] || 0)
-  }
+//This array holds a list of the counting stats so that we know what to scale per game and what to leave unscaled
+let countingStats = ['passing_att', 'passing_yds', 'passing_tds', 'passing_int', 'passing_sk', 'rushing_att', 'rushing_tds', 'rushing_yds', 'cmp_air_yds', 'incmp_air_yds', 'total_air_yds', 'rushing_att', 'rushing_yds', 'rushing_tds', 'receiving_rec', 'receiving_tar', 'receiving_tds', 'receiving_yds']
 
-  //Checking whether the number needs to be truncated to two decimal places
-  if (AScore % Math.floor(AScore) !== 0) {
-    AScore = AScore.toFixed(2)
+//This function calculates the results of your personal algorigthm (for use inside the component lifecycle methods)
+function algoScore(player, weightsObj = {}, scaleByGamesPlayed, gamesPlayed = 0) {
+  let AScore = 0
+  if (!scaleByGamesPlayed) {
+    for (let key in weightsObj) {
+      AScore += Number(player[key] * weightsObj[key] || 0)
+    }
+    return AScore > 0 ? AScore : 0
+  } else {
+    for (let key in weightsObj) {
+      if (countingStats.includes(key)) {
+        AScore += Number(player[key] * weightsObj[key] || 0) / gamesPlayed
+      } else {
+        AScore += Number(player[key] * weightsObj[key] || 0)
+      }
+    }
+    return AScore > 0 ? AScore : 0
   }
-  return AScore > 0 ? AScore : 0
 }
 
 //Normalizes a stat (scales it so that the #1 player for that stat gets a score of 1, and all others are their proportion of the top guy)
@@ -135,9 +144,9 @@ class App extends React.Component {
     for (let i = 0; i < newArr.length; i++) {
       //Determining whether to scale by games played
       if (!this.state.gamesPlayed) {
-        newArr[i].AScore = algoScore(newArr[i], weightsObj, positionIndex)
+        newArr[i].AScore = algoScore(newArr[i], weightsObj, false)
       } else {
-        newArr[i].AScore = (algoScore(newArr[i], weightsObj, positionIndex) / newArr[i].games).toFixed(2)
+        newArr[i].AScore = (algoScore(newArr[i], weightsObj, true, newArr[i].games))
       }
 
       //This position property is necessary for selecting the elements to show tooltips in the chart component

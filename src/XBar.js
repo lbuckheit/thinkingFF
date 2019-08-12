@@ -38,7 +38,7 @@ class XBar extends React.Component {
           <Legend />
           <Bar onMouseOver={(index) => this.renderBarTooltip(index)} dataKey="AScore" fill="#2196F3" />
         </BarChart>
-        <p className="content">{activeItem.name ? `AScore of ${activeItem.name}: ${activeItem.AScore}` : ''}</p>
+        <p className="content">{activeItem.name ? `AScore of ${activeItem.name}: ${activeItem.AScore.toFixed(2)}` : ''}</p>
       </div>
     );
   }

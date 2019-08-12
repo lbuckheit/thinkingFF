@@ -202,14 +202,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div height='250px'>
-          ------
-          ------
-          ------
-          BANNER
-          ------
-          ------
-          ------
+        <div>
+          <img src='https://i.imgur.com/azaU17B.png' alt='header'/>
         </div>
         <div>
           <span>
@@ -248,6 +242,10 @@ class App extends React.Component {
             <div className='test-inside'>
               <XBar data={this.state.graphingData}/>
             </div>
+          </div>
+          <div>
+            <h4>About this app</h4>
+            <p>In Daniel Kahneman’s magnificent book <i>Thinking Fast and Slow</i>, he dedicates a chapter to the utility of using simple algorithms to replace subjective judgements in all sorts of applications.  He presents research indicating how simple combinations of scores (algorithms) can provide better forecasts than even expert opinions in a wide variety of fields, from wine pricing to medical diagnoses.  This app allows users to create their own simple algorithm to evaluate the statistics of NFL players from 2018, and use the results of that algorithm to find value for 2019 fantasy drafts.  A user will create a custom-weighted combination of statistics, and a player’s algorithm score (AScore) will be graphed on the y-axis, against their 2019 average draft position (ADP) on the x-axis.  Players with a higher/lower AScore than their neighbors will then represent potential value picks/players to avoid in drafts.  Obviously there are many factors that go into a player’s season than last year’s statistics, but my hope is that this site will allow fantasy managers to at least identify players worthy of further research.</p>
           </div>
         </div>
       </div>

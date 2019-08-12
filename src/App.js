@@ -77,6 +77,7 @@ class App extends React.Component {
     this.handleWeightChange = this.handleWeightChange.bind(this)
     this.handleGamesPlayed = this.handleGamesPlayed.bind(this)
     this.handlePositionChange = this.handlePositionChange.bind(this)
+    this.handleNormalize = this.handleNormalize.bind(this)
 
     //State components:
     //algoComponents: a list of the elements that are currently included in the algorithm
@@ -85,13 +86,15 @@ class App extends React.Component {
     //gamesPlayed: a bool that determines whether to scale the data by games played in 2018
     //playerData: an array of arrays of singleplayers that is generated as the first thing in this file
     //selectedPositionIndex: a number that indicated which element of state.playerData to operate on
+    //normalize: a bool that determines whether to normalize the statistics or not before including them in the algo
     this.state = {
       algoComponents: [],
       weightsObj: {},
       graphingData: [],
       gamesPlayed: false,
       playerData: [...sortedPositionArr],
-      selectedPositionIndex: 0
+      selectedPositionIndex: 0,
+      normalize: false
     }
 
     //These arrays hold the statistics that will appear in the dropdown for each position
@@ -120,7 +123,9 @@ class App extends React.Component {
     }
 
     //Normalizing the stats
-    newArr = normalizeStats(newArr, weightsObj)
+    if (this.state.normalize) {
+      newArr = normalizeStats(newArr, weightsObj)
+    }
 
     for (let i = 0; i < newArr.length; i++) {
       //Determining whether to scale by games played
@@ -139,6 +144,13 @@ class App extends React.Component {
   //Toggle the gamesPlayed bool on and off and then update the data once the new state is set
   handleGamesPlayed() {
     this.setState({gamesPlayed: !this.state.gamesPlayed}, function() {
+      this.updateData(this.state.weightsObj, this.state.selectedPositionIndex)
+    })
+  }
+
+  //Toggle the normalize bool on and off and then update the data once the new state is set
+  handleNormalize() {
+    this.setState({normalize: !this.state.normalize}, function() {
       this.updateData(this.state.weightsObj, this.state.selectedPositionIndex)
     })
   }
@@ -197,6 +209,13 @@ class App extends React.Component {
             <h3>Scale counting stats by games played?</h3>
             <label className="switch">
               <input type="checkbox" onClick={this.handleGamesPlayed}></input>
+              <span className="slider round"></span>
+            </label>
+          </span>
+          <span>
+            <h3>Normalize statistics for inclusion?</h3>
+            <label className="switch">
+              <input type="checkbox" onClick={this.handleNormalize}></input>
               <span className="slider round"></span>
             </label>
           </span>

@@ -30,12 +30,10 @@ class XBar extends React.Component {
     return (
       <div>
         <BarChart width={1000} height={500} data={this.props.data}
-              margin={{top: 5, right: 60, left: 20, bottom: 5}}>
+              margin={{top: 5, right: 60, left: 60, bottom: 5}}>
           <CartesianGrid strokeDasharray="2 2" interval={10}/>
-          <XAxis dataKey='name' angle={45} textAnchor='start' interval={0} height={120} width={50} ticks={[]} fontSize={12}/>
-          <YAxis />
-          <Tooltip />
-          <Legend />
+          <XAxis dataKey='name' angle={45} textAnchor='start' interval={0} height={120} width={50} ticks={[]} fontSize={12} label={ {value: '<-- Higher ADP / Lower ADP -->', dy: 50, dx: -35 }}/>
+          <YAxis label={{ value: 'AScore', dx: -50}}/>
           <Bar onMouseOver={(index) => this.renderBarTooltip(index)} dataKey="AScore" fill="#2196F3" />
         </BarChart>
         <p className="content">{activeItem.name ? `AScore of ${activeItem.name}: ${activeItem.AScore.toFixed(2)}` : ''}</p>

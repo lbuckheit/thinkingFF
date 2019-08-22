@@ -19,7 +19,7 @@ for (let page of pages) {
       //Writing to file
       require('fs').writeFile(
 
-        `./${page.name}.json`,
+        `./${page.name}ADP.json`,
 
         JSON.stringify(names),
 
